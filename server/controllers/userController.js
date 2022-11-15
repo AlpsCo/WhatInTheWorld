@@ -6,6 +6,7 @@ const userController = {};
 
 userController.signUp = (req, res, next) => {
   const { username, password } = req.body;
+  console.log('inside userController.signUp, username and password: ', username, password);
   bcrypt.hash(password, saltFactor, (err, hash) => {
     // save hashed password and username to database
     const signupQuery = 'INSERT INTO users (username, password) VALUES ($1, $2)';
@@ -15,6 +16,7 @@ userController.signUp = (req, res, next) => {
         return next();
       })
       .catch(error => {
+        console.log('Username already exists');
         return next(error);
       });
 

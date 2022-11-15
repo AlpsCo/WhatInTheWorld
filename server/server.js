@@ -40,6 +40,18 @@ app.get('/countries', countryController.getCountries, (req, res) => {
 // catch-all route handler for any requests to an unknown route
 app.use((req, res) => res.sendStatus(404));
 
+app.use((err, req, res, next) => {
+  const defaultErr = {
+    log: 'Express error handler caught unknown middleware error',
+    status: 500,
+    message: {err: 'an error occurred'}
+  };
+  const errorObj = Object.assign({}, defaultErr);
+  errorObj.message.err = err;
+  console.log('ERROR: ', errorObj.message);
+
+  return res.status(errorObj.status).send(errorObj.message);
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
