@@ -4,6 +4,7 @@ const path = require('path');
 const PORT = 3000;
 
 const userController = require('./controllers/userController');
+const countryController = require('./controllers/countryController');
 
 
 app.use(express.json());
@@ -26,6 +27,12 @@ app.post('/signup', userController.signUp, (req, res) => {
 
 app.post('/login', userController.logIn, (req, res) => {
   console.log('Logged in successfully');
+  return res.status(200).json(res.locals.username);
+});
+
+// getting list of all countries 
+app.get('/countries', countryController.getCountries, (req, res) => {
+  console.log('get countries - successful');
   return res.status(200).json(res.locals.username);
 });
 
