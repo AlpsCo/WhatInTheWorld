@@ -5,8 +5,6 @@ component render
 State change with score
 
 
-
-
 import
 describe
 it
