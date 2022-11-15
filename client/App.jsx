@@ -1,16 +1,20 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Main from './components/Main'
+import Login from './components/Login';
+import Signup from './components/Signup';
+import Gamepage from './componenets/Gamepage';
 
-const App = () => {
-
-  return(
-    <div> 
-      <h3>If you can see this, react is working. yay!</h3> 
-      <Main />
+function App() {
+  return (
+    <div>
+      <Routes>
+        <Route path='/' element={<Login />} />
+        <Route path='/signup' element= {<Signup />} />
+        <Route path='/gamepage' element= {<Gamepage />} />
+      </Routes>
     </div>
-  )
+  );
 }
 
 
-export default App
+export default App;
