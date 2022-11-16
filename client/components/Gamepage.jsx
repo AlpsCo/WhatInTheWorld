@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import  Navbar from './Navbar';
-import Hintsboard from './Hintsboard';
-import { Metrics } from './Metrics';
+import Hintsboard from './gamepageComponents/Hintsboard';
+import { Metrics } from './gamepageComponents/Metrics';
 import { Userinput } from './Userinput';
 
 /*
@@ -59,10 +59,18 @@ Submit button
 */
 
 const Gamepage = () => {
-  const [ score, setScore ] = useState();
-  const [ currCountry, setCurrCountry] = useState();
-  const [ hints, setHints ] = useState();
-  const [ wrong, setWrong ] = useState();
+  const [ score, setScore ] = useState(100);
+  const [ currCountry, setCurrCountry] = useState('Latveria');
+  const [ hints, setHints ] = useState(['Ruler is Victor Von Doom.', 
+  'In eastern Europe.', 
+  'Money is the Latverian Franc.', 
+  'Capital is DoomStadt.', 
+  'Is an "enforced monarchy', 
+  'Population is 500,000.']);
+  const [ displayedHints, setDisplayedHints ] = useState([]);
+  // We set this to true when they guess correctly, use this to trigger next question steps. 
+  const [ wrong, setWrong ] = useState(false);
+
 
   // Fetch data 
 
