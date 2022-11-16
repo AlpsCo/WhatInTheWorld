@@ -1,43 +1,47 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Gamepage from './components/Gamepage';
-//import { ContextProvider } from './contexts/context';
+import React, { useEffect, useState } from 'react';
+import Trivia from './components/Trivia';
 
-//Set up Context for use on all pages. 
-const userContextData = {user: ""};
-const themeContextData = {
-  light: {
-    foreground: "", 
-    background: ""
-}, 
-  dark:{
-    foreground: "", 
-    background: ""
+const App = props => {
+
+  const [tenCountries, setTen] = useState([]);
+
+  function getTen(){
+    const ten = [];
+    fetch('/countries')
+      .then(data => data.json())
+      .then(res => {
+        for (let i = 0; i < 10; i++){
+          const idx = Math.floor(Math.random() * res.length);
+          const chosen = res.splice(idx,1);
+          ten.push(chosen);
+        }
+      });
+    setTen(ten);
   }
-};
-const ThemeContext = React.createContext(themeContextData);
-const UserContext = React.createContext(userContextData);
-//To use context, do...
-//const blah = useContext(UserContext/ThemeContext);
+  // function getFax(oneC){
+  //   const oneCountry = {country: oneC};
+  //   fetch('/facts', {
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(oneCountry)
+  //   })
+  //     .then(res => res.json())
+  //     .then(fax => setCountryFacts(fax));
+  //   return countryFacts;
+  // }
 
-
-function App() {
-  return (
-    <ThemeContext.Provider>
-      <UserContext.Provider>
-        <div>
-          <Routes>
-            <Route path='/' element={<Login />} />
-            <Route path='/signup' element= {<Signup />} />
-            <Route path='/gamepage' element= {<Gamepage />} />
-          </Routes>
-        </div>
-      </UserContext.Provider>
-    </ThemeContext.Provider>
+  
+  return(
+    <div>
+      <Trivia getTen={getTen} tenCountries={tenCountries}/>
+      {/* <button onClick={getTen}>press me hehe</button> */}
+      {/* <button onClick={getFax('Colombia')}>now press me</button> */}
+    </div>
+    
   );
-}
+};
 
 
 export default App;
