@@ -5,6 +5,7 @@ const PORT = 3000;
 
 const userController = require('./controllers/userController');
 const countryController = require('./controllers/countryController');
+const gameController = require('./controllers/gameController');
 
 
 app.use(express.json());
@@ -33,8 +34,16 @@ app.post('/login', userController.logIn, (req, res) => {
 // getting list of all countries 
 app.get('/countries', countryController.getCountries, (req, res) => {
   console.log('get countries - successful');
-  return res.status(200).json(res.locals.username);
+  return res.status(200).json(res.locals.countries);
 });
+
+// getting list of country facts
+app.get('/facts', countryController.getCountriesFacts, (req, res) => {
+  console.log('get country facts - successful');
+  return res.status(200).json(res.locals.facts);
+});
+
+app.patch('/syncscore', gameController.sync)
 
 
 // catch-all route handler for any requests to an unknown route
