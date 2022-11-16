@@ -7,9 +7,9 @@ const Main = () => {
     fetch('/countries')
       .then(data => data.json())
       .then(data => {
-        console.log(data)
-      })
-  }
+        console.log(data);
+      });
+  };
 
   return (
     <div className='main'>
@@ -27,7 +27,7 @@ const Main = () => {
 
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;
