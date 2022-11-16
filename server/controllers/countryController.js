@@ -71,10 +71,10 @@ countryController.getCountriesFacts = (req, res, next) => {
       fetch('https://en.wikipedia.org/wiki/List_of_countries_that_have_gained_independence_from_the_United_Kingdom')
         .then(data => data.json())
         .then(data => {
-          const html_code = data["parse"]["text"]["*"];
+          const html_code = data['parse']['text']['*'];
           const parser = new DOMParser();
-          const html = parser.parseFromString(html_code, "text/html");
-          var tables = html.querySelectorAll(".wikitable");
+          const html = parser.parseFromString(html_code, 'text/html');
+          var tables = html.querySelectorAll('.wikitable');
           console.log(tables);
 
           // actual useful stuff

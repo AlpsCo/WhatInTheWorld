@@ -9,7 +9,7 @@ userController.signUp = (req, res, next) => {
   console.log('inside userController.signUp, username and password: ', username, password);
   bcrypt.hash(password, saltFactor, (err, hash) => {
     // save hashed password and username to database
-    const signupQuery = 'INSERT INTO users (username, password) VALUES ($1, $2)';
+    const signupQuery = 'INSERT INTO users (username, password, highscore) VALUES ($1, $2, 0)';
     db.query(signupQuery, [username, hash])
       .then(() => {
         console.log('User created');
