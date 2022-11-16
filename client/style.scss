@@ -1,0 +1,31 @@
+
+/*I turn this on to see where all my DIVs are. 
+Enclose in comments later to remove*/
+div { 
+  border-style: dotted;
+  border-color: red;
+  border-width: 5px;
+}
+
+#appDiv{
+  border-style: dashed;
+  border-color: blueviolet;
+  border-width: 3px;
+}
+
+#loginDiv{
+  border-style: dashed;
+  border-color: green;
+  border-width: 3px;
+  /*
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  */
+}
+
+#signupDiv{
+  border-style: dashed;
+  border-color: green;
+  border-width: 3px;
+}

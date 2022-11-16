@@ -14,7 +14,7 @@ const Navbar = () =>{
     navigate('/');
   };
   return(
-    <div className="navbar">
+    <div id="navbar">
       <button onClick={''}></button>
       <button onClick={handleLogout}>Sign out</button>
     </div>
