@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-
+import { Button } from '@chakra-ui/react';
 
 
 const Navbar = () =>{
@@ -15,8 +15,8 @@ const Navbar = () =>{
   };
   return(
     <div id="navbar">
-      <button onClick={''}></button>
-      <button onClick={handleLogout}>Sign out</button>
+      {/* <button onClick={''}></button> */}
+      <button className='button' onClick={handleLogout}>Sign Out</button>
     </div>
   );
 };
