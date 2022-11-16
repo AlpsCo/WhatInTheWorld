@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 /*
 
 */
-function Login() {
+function Login(props) {
   const navigate = useNavigate();
 
   const handleClick = async (e) => {
@@ -11,21 +11,6 @@ function Login() {
     const body = { username: e.target[0].value, password: e.target[1].value };
     console.log(body);
 
-    // fetch('/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Accept: 'application/json, text/plain',
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then(data => data.json())
-    //   .then((data) => console.log(data));
-
-
-
-
-    // try {
     const res = await fetch('/login', {
       method: 'POST',
       headers: {
@@ -38,6 +23,7 @@ function Login() {
     console.log(receivedBack);
     //If we receive back a username then the login was successful
     if (receivedBack) {
+      props.setUser(receivedBack)
       navigate('/gamepage');
       //add username to state
 
@@ -45,14 +31,12 @@ function Login() {
     } else {
       alert('Wrong Information');
     }
-    // } catch (error) {
-    //   console.log('error with login');
-    // }
   };
 
   return (
     <>
       <h1 id= 'title'>What In The World?</h1>
+      <img src="../assets/earf.png" alt="earth"></img>
       <div id='loginDiv'>
         <h1>Please Log In </h1>
         <form className='loginDivForm' onSubmit={handleClick}>

@@ -1,31 +1,121 @@
 
 /*I turn this on to see where all my DIVs are. 
 Enclose in comments later to remove*/
-div { 
-  border-style: dotted;
-  border-color: red;
-  border-width: 5px;
+body{
+  background-color: #EDE4E0
 }
 
-#appDiv{
-  border-style: dashed;
-  border-color: blueviolet;
-  border-width: 3px;
+.metrics {
+  border-width: 2px;
+  display: flex;
+  margin: 15px;
+  flex-direction: column;
+  align-items: center;
 }
 
-#loginDiv{
-  border-style: dashed;
-  border-color: green;
-  border-width: 3px;
-  /*
+.timer {
+  margin-left: 20px;
+}
+
+
+.hintsboard{
+  display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+// .gamepage{
+//   display:flex;
+// }
+
+p,h1,h2,h3,h4{
+  font-family: 'Raleway', sans-serif;
+}
+.hint { 
+  border-style: double;
+  background-color: #C8DBBE;
+  display: flex;
+  border-color: #9F8772;
+  border-radius: 5px;
+  border-width: 2px;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 60%;
+}
+
+.possible-points { 
+  float: right;
+}
+
+.flag img {
+  height: 80%;
+  width: 60%;
+}
+
+.input-form {
+  margin-top: 20px;
+}
+#title{
   display: flex;
   justify-content: center;
-  margin: auto;
-  */
+  font-size: 50px;
+}
+#loginDiv, #signupDiv{
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-#signupDiv{
-  border-style: dashed;
-  border-color: green;
-  border-width: 3px;
+.button{
+  background-color: orange; 
+  border: none;
+  border-radius: 10% / 20%;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button:hover{
+  background-color: rgb(255, 173, 22); 
+  box-shadow:  10px 5px 5px rgb(255, 228, 177);
+  border: none;
+  border-radius: 10% / 20%;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button-container{
+  display: flex;
+  justify-content: center;
+}
+.input{
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 1.3rem;
+  color: rgb(35, 35, 35);
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .form__label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
 }
