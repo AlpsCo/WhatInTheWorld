@@ -1,9 +1,8 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Gamepage from './components/Gamepage';
-//import { ContextProvider } from './contexts/context';
 
 //Set up Context for use on all pages. 
 //To use context, do...
@@ -19,15 +18,17 @@ const themeContextData = {
     background: '',
   }
 };
-const ThemeContext = React.createContext(themeContextData);
-const UserContext = React.createContext(userContextData);
+export const ThemeContext = React.createContext(themeContextData);
+export const UserContext = React.createContext(userContextData);
 
 
 
-function App() {
+export default function App() {
+  const [value, setValue] = useState(UserContext.user);
+
   return (
     <ThemeContext.Provider>
-      <UserContext.Provider>
+      <UserContext.Provider value ={{value, setValue}}>
         <div id='appDiv'>
           <Routes>
             <Route path='/' element={<Login />} />
@@ -39,6 +40,3 @@ function App() {
     </ThemeContext.Provider>
   );
 }
-
-
-export default App;

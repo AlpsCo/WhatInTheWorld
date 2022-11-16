@@ -1,31 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import {UserContext} from '../App';
 /*
 
 */
 function Login() {
   const navigate = useNavigate();
-
+  //const {value, setValue} = useContext(UserContext.user);
   const handleClick = async (e) => {
     e.preventDefault();
+
     const body = { username: e.target[0].value, password: e.target[1].value };
-    console.log(body);
 
-    // fetch('/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //     Accept: 'application/json, text/plain',
-    //   },
-    //   body: JSON.stringify(body),
-    // })
-    //   .then(data => data.json())
-    //   .then((data) => console.log(data));
-
-
-
-
-    // try {
     const res = await fetch('/login', {
       method: 'POST',
       headers: {
@@ -37,17 +23,16 @@ function Login() {
     const receivedBack = await res.json();
     console.log(receivedBack);
     //If we receive back a username then the login was successful
-    if (receivedBack) {
-      navigate('/gamepage');
+    if (receivedBack === body.username) {
       //add username to state
+      //setValue(body.username);
+      navigate('/gamepage');
+      
 
-      //if either false, then let them know login information is invalid/incorrect
+      //else let them know the information is wrong
     } else {
       alert('Wrong Information');
     }
-    // } catch (error) {
-    //   console.log('error with login');
-    // }
   };
 
   return (
