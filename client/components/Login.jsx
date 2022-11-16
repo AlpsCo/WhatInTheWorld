@@ -10,29 +10,44 @@ function Login() {
     e.preventDefault();
     const body = { username: e.target[0].value, password: e.target[1].value };
     console.log(body);
-    try {
-      const res = await fetch('/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json, text/plain',
-        },
-        body: JSON.stringify(body),
-      });
-      const receivedBack = await res.json();
 
-      //If we receive back a username then the login was successful
-      if (receivedBack.locals.username) {
-        navigate('/gamepage');
-        //add username to state
+    // fetch('/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Accept: 'application/json, text/plain',
+    //   },
+    //   body: JSON.stringify(body),
+    // })
+    //   .then(data => data.json())
+    //   .then((data) => console.log(data));
 
-        //if either false, then let them know login information is invalid/incorrect
-      } else {
-        alert('Wrong Information');
-      }
-    } catch (error) {
-      console.log('error with login');
+
+
+
+    // try {
+    const res = await fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json, text/plain',
+      },
+      body: JSON.stringify(body),
+    });
+    const receivedBack = await res.json();
+    console.log(receivedBack)
+    //If we receive back a username then the login was successful
+    if (receivedBack) {
+      navigate('/gamepage');
+      //add username to state
+
+      //if either false, then let them know login information is invalid/incorrect
+    } else {
+      alert('Wrong Information');
     }
+    // } catch (error) {
+    //   console.log('error with login');
+    // }
   };
 
   return (

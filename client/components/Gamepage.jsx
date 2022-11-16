@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import  Navbar from './Navbar';
+import  Navbar from './gamepageComponents/Navbar';
 import Hintsboard from './gamepageComponents/Hintsboard';
 import { Metrics } from './gamepageComponents/Metrics';
-import { Userinput } from './Userinput';
+import { Userinput } from './gamepageComponents/Userinput';
 
 /*
 state
