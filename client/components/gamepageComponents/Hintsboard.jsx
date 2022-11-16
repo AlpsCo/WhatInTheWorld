@@ -8,6 +8,22 @@ const Hintsboard = ({ hints, wrong, setWrong }) =>{
   //displaying displayHints.
 
 
+<<<<<<< HEAD
+  // const [ displayHints, setDisplayHints ] = useState(hints);
+  // const copyHints = [...hints]
+
+  // useEffect(() => {
+  //   if (wrong && copyHints.length) {
+  //     setDisplayHints(copyHints.pop());
+  //     setWrong(false);
+  //   } else if(!copyHints.length){
+  //     return <div> No more hints </div>
+  //   } else {
+  //     return <div> Great job next question </div>
+  //   }
+  // }, [wrong]);
+
+=======
   const [ displayHints, setDisplayHints ] = useState();
   const copyHints = [...hints];
   useEffect(() => {
@@ -20,10 +36,12 @@ const Hintsboard = ({ hints, wrong, setWrong }) =>{
       return <div> Great job next question </div>;
     }
   }, [wrong]);
+>>>>>>> dev
   return(
-    <div>
-      {displayHints}
+    <div className="hints">
+      {JSON.stringify(hints)}
     </div>
   );
 };
+
 export default Hintsboard;

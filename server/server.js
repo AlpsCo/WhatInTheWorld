@@ -38,7 +38,7 @@ app.get('/countries', countryController.getCountries, (req, res) => {
 });
 
 // getting list of country facts
-app.get('/facts', countryController.getCountriesFacts, (req, res) => {
+app.post('/facts', countryController.getCountriesFacts, (req, res) => {
   console.log('get country facts - successful');
   return res.status(200).json(res.locals.facts);
 });

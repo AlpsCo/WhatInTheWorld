@@ -31,6 +31,7 @@ countryController.getCountries = (req, res, next) => {
 // get facts of a particular country GET /facts
 countryController.getCountriesFacts = (req, res, next) => {
   const country = req.body.country;
+  console.log('in get facts: ', country)
   fetch('https://restcountries.com/v3.1/all')
     .then(data => data.json())
     .then(data => {
@@ -68,19 +69,21 @@ countryController.getCountriesFacts = (req, res, next) => {
       //population 
       countryFact.population = countryObject.population;
 
-      fetch('https://en.wikipedia.org/wiki/List_of_countries_that_have_gained_independence_from_the_United_Kingdom')
-        .then(data => data.json())
-        .then(data => {
-          const html_code = data['parse']['text']['*'];
-          const parser = new DOMParser();
-          const html = parser.parseFromString(html_code, 'text/html');
-          var tables = html.querySelectorAll('.wikitable');
-          console.log(tables);
+      // fetch('https://en.wikipedia.org/wiki/List_of_countries_that_have_gained_independence_from_the_United_Kingdom')
+      //   .then(data => data.json())
+      //   .then(data => {
+      //     const html_code = data['parse']['text']['*'];
+      //     const parser = new DOMParser();
+      //     const html = parser.parseFromString(html_code, 'text/html');
+      //     var tables = html.querySelectorAll('.wikitable');
+      //     console.log(tables);
 
-          // actual useful stuff
-          res.locals.facts = countryObject;
-          return next();
-        })
+      //     // actual useful stuff
+      //     res.locals.facts = countryObject;
+      //     return next();
+      //   })
+      res.locals.facts = countryFact;
+      return next();
 
     })
     .catch(err => {
