@@ -43,7 +43,17 @@ app.get('/facts', countryController.getCountriesFacts, (req, res) => {
   return res.status(200).json(res.locals.facts);
 });
 
-app.patch('/syncscore', gameController.sync)
+// get previous high score
+app.get('/getscore/:username', gameController.getScore, (req, res) => {
+  console.log('get score - successful');
+  return res.status(200).json(res.locals.score);
+});
+
+// update high score 
+app.patch('/syncscore/:username', gameController.syncScore, (req, res) => {
+  console.log('sync score - successful');
+  return res.status(200).json(res.locals.newHighScore);
+});
 
 
 // catch-all route handler for any requests to an unknown route
