@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
+import  Navbar from './Navbar';
+import Hintsboard from './Hintsboard';
+import { Metrics } from './Metrics';
+import { Userinput } from './Userinput';
 
 /*
 state
@@ -54,9 +58,24 @@ Submit button
 
 */
 
-function Gamepage() {
+const Gamepage = () => {
+  const [ score, setScore ] = useState();
+  const [ currCountry, setCurrCountry] = useState();
+  const [ hints, setHints ] = useState();
+  const [ wrong, setWrong ] = useState();
+
+  // Fetch data 
+
+    // Randomize facts and store data in an object with country and an array with random facts
+
+  // As user progresses through the questions (right/wrong) feed the next question by updating state of country and currHints
+
   return (
     <div>
+      <Navbar></Navbar>
+      <Metrics score={score} ></Metrics>
+      <Hintsboard setScore={setScore} hints={hints} wrong={wrong} setWrong={setWrong}></Hintsboard>
+      <Userinput currCountry={currCountry} wrong={wrong} setWrong={setWrong} ></Userinput>
     </div>
   );
 }
