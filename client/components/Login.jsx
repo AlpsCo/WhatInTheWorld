@@ -35,7 +35,7 @@ function Login() {
       body: JSON.stringify(body),
     });
     const receivedBack = await res.json();
-    console.log(receivedBack)
+    console.log(receivedBack);
     //If we receive back a username then the login was successful
     if (receivedBack) {
       navigate('/gamepage');
@@ -53,7 +53,7 @@ function Login() {
   return (
     <>
       <h1 id= 'title'>What In The World?</h1>
-      <div className='loginDiv'>
+      <div id='loginDiv'>
         <h1>Please Log In </h1>
         <form className='loginDivForm' onSubmit={handleClick}>
           <input className="inputFields" type='text' id='username' name='username' placeholder="Username"></input>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
 
 const Hintsboard = ({ hints, wrong, setWrong }) =>{
   //Pulling hints from state
@@ -8,6 +8,7 @@ const Hintsboard = ({ hints, wrong, setWrong }) =>{
   //displaying displayHints.
 
 
+<<<<<<< HEAD
   // const [ displayHints, setDisplayHints ] = useState(hints);
   // const copyHints = [...hints]
 
@@ -22,6 +23,20 @@ const Hintsboard = ({ hints, wrong, setWrong }) =>{
   //   }
   // }, [wrong]);
 
+=======
+  const [ displayHints, setDisplayHints ] = useState();
+  const copyHints = [...hints];
+  useEffect(() => {
+    if (wrong && copyHints.length) {
+      setDisplayHints(copyHints.pop());
+      setWrong(false);
+    } else if(!copyHints.length){
+      return <div> No more hints </div>;
+    } else {
+      return <div> Great job next question </div>;
+    }
+  }, [wrong]);
+>>>>>>> dev
   return(
     <div className="hints">
       {JSON.stringify(hints)}
