@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+
 
 /*
 state
@@ -55,6 +56,20 @@ Submit button
 */
 
 function Gamepage() {
+  //Set up state.
+  //We will get factoids from the BE as an object, randomize, and build something like this.
+  const [factoids, setFactoids] = useState({
+    country: 'Latveria', 
+    1: 'Major languages are German, Hungarian, Latverian, Romany', 
+    2: 'The monetary unit is the Latverian Franc.',
+    3: 'The capital City is Doomstadt',
+    4: 'The major airport is Doomsport Airport',
+    5: 'The country to the south is Symkaria',
+    6: 'the national motto is: "We master all that lies before."',
+    7: 'The region is Eastern Europe',
+    8: 'The ruler is Dr. Victor von Doom.',
+    9: 'The government style is "enforced monarchy"',
+  });
   return (
     <div>
     </div>
