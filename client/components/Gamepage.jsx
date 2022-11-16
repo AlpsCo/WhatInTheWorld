@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-
+import  Navbar from './Navbar';
+import Hintsboard from './Hintsboard';
+import { Metrics } from './Metrics';
+import { Userinput } from './Userinput';
 
 /*
 state
@@ -55,23 +58,24 @@ Submit button
 
 */
 
-function Gamepage() {
-  //Set up state.
-  //We will get factoids from the BE as an object, randomize, and build something like this.
-  const [factoids, setFactoids] = useState({
-    country: 'Latveria', 
-    1: 'Major languages are German, Hungarian, Latverian, Romany', 
-    2: 'The monetary unit is the Latverian Franc.',
-    3: 'The capital City is Doomstadt',
-    4: 'The major airport is Doomsport Airport',
-    5: 'The country to the south is Symkaria',
-    6: 'the national motto is: "We master all that lies before."',
-    7: 'The region is Eastern Europe',
-    8: 'The ruler is Dr. Victor von Doom.',
-    9: 'The government style is "enforced monarchy"',
-  });
+const Gamepage = () => {
+  const [ score, setScore ] = useState();
+  const [ currCountry, setCurrCountry] = useState();
+  const [ hints, setHints ] = useState();
+  const [ wrong, setWrong ] = useState();
+
+  // Fetch data 
+
+    // Randomize facts and store data in an object with country and an array with random facts
+
+  // As user progresses through the questions (right/wrong) feed the next question by updating state of country and currHints
+
   return (
     <div>
+      <Navbar></Navbar>
+      <Metrics score={score} ></Metrics>
+      <Hintsboard setScore={setScore} hints={hints} wrong={wrong} setWrong={setWrong}></Hintsboard>
+      <Userinput currCountry={currCountry} wrong={wrong} setWrong={setWrong} ></Userinput>
     </div>
   );
 }
