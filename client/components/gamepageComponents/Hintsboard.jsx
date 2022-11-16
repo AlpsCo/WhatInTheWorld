@@ -25,8 +25,6 @@ const Hintsboard = (props) => {
   const [guessBool, setGuessBool] = useState(false);
 
 
-
-
   useEffect(() => {
     console.log('inside useEffect: ', currentHint)
     // Getting a randomized array with string and a possible object containing a picture
