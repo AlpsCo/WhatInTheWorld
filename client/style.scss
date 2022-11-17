@@ -1,0 +1,155 @@
+
+/*I turn this on to see where all my DIVs are. 
+Enclose in comments later to remove*/
+body {
+  /*background-image: url("https://i.imgur.com/yLuYIVw.png");*/
+  background-image: url("https://i.imgur.com/sGrWRBq.png");
+  background-size: cover;
+  // background-position: 50% 50;
+  background-color: #628E90
+}
+
+.box{
+  background-color: #EDE4E0;
+  border-style: solid;
+  border-radius: 15px;
+  padding: 40px;
+}
+
+.gamePageBox{
+  background-color: #DFD3C3;
+  border-style: solid;
+  border-radius: 15px;
+  padding: 40px;
+  display: inline-block;
+}
+
+#notnav {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.metrics {
+  border-width: 2px;
+  display: flex;
+  margin: 15px;
+  flex-direction: column;
+  align-items: center;
+  background-color: #C8DBBE;
+  width: 20%;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: #665A48;
+
+}
+
+.hintsboard{
+  display: flex;
+    justify-content: center;
+    // margin: 0 auto;
+    width: 800px;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+}
+
+p,h1,h2,h3,h4{
+  font-family: 'Raleway', sans-serif;
+}
+.hint { 
+  border-style: double;
+  background-color: #C8DBBE;
+  display: flex;
+  border-color: #9F8772;
+  border-radius: 5px;
+  border-width: 2px;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  width: 60%;
+}
+
+.possible-points { 
+  float: right;
+}
+
+.flag img {
+  height: 80%;
+  width: 60%;
+}
+
+.input-form {
+  display: flex;
+  margin-top: 20px;
+}
+#title{
+  color: rgb(251, 239, 227);
+  display: flex;
+  justify-content: center;
+  font-size: 50px;
+}
+#loginDiv, #signupDiv{
+  margin-top: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button{
+  background-color: #1C6758; 
+  border: none;
+  border-radius: 10% / 20%;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button:hover{
+  background-color: rgb(22, 127, 255); 
+  box-shadow:  5px 5px 5px rgb(177, 206, 255);
+  border: none;
+  border-radius: 10% / 20%;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+}
+.button-container{
+  display: flex;
+  justify-content: center;
+}
+.input{
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid gray;
+  outline: 0;
+  font-size: 1.3rem;
+  color: rgb(35, 35, 35);
+  padding: 7px 0;
+  background: transparent;
+  transition: border-color 0.2s;
+
+  &::placeholder {
+    color: transparent;
+  }
+
+  &:placeholder-shown ~ .label {
+    font-size: 1.3rem;
+    cursor: text;
+    top: 20px;
+  }
+}
+.label {
+  position: absolute;
+  top: 0;
+  display: block;
+  transition: 0.2s;
+  font-size: 1rem;
+  color: gray;
+}
