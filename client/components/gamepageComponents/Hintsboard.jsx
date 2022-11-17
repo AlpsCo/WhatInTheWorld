@@ -3,11 +3,15 @@ import { Button, Input } from '@chakra-ui/react';
 
 
 const Hintsboard = (props) => {
+  const username = props.username;
   const score = props.score;
   const setScore = props.setScore;
-  let hints = props.hints;
-  let currCountry = props.currCountry;
-  let changeCountry = props.changeCountry;
+  const hints = props.hints;
+  const currCountry = props.currCountry;
+  const changeCountry = props.changeCountry;
+  const setHighScore = props.setHighScore;
+  const hintsRemaining = props.hintsRemaining;
+  const setHintsRemaining = props.setHintsRemaining;
   //Pulling hints from state
   //deep copying them into copyHints
   //making empty displayHints
@@ -17,7 +21,7 @@ const Hintsboard = (props) => {
   // hints is already randomized - ["factoid", "factoid", "factoid", {url: 'picture'}]
 
   
-  const [hintsRemaining, setHintsRemaining] = useState(hints.length);
+  // const [hintsRemaining, setHintsRemaining] = useState(hints.length);
   const [currentHint, setCurrentHint] = useState(hints[hintsRemaining-1]);
   const [inputWrong, setInputWrong] = useState(false);
   const [isFlag, setIsFlag] = useState(false);
@@ -26,12 +30,12 @@ const Hintsboard = (props) => {
 
 
   useEffect(() => {
-    console.log('inside useEffect: ', currentHint)
+    console.log('inside useEffect: ', currentHint, hintsRemaining);
     // Getting a randomized array with string and a possible object containing a picture
-    if(hintsRemaining>=0){
+    if(hintsRemaining > 0){
       const newHint = hints[hintsRemaining];
-      if (typeof(newHint)==='object') {
-        console.log('inside flag logic', hints[hintsRemaining])
+      if (typeof(newHint) === 'object') {
+        console.log('inside flag logic', hints[hintsRemaining]);
         setCurrentHint(hints[hintsRemaining].url);
         setIsFlag(true); 
       }
@@ -42,11 +46,10 @@ const Hintsboard = (props) => {
     } else {
       // Wrong answer but no more hints
       setScoreDeduction(0);
-      alert(`You suck at geography, you must be American!!! The country was ${currCountry}, obviously.`)
-
+      alert(`You suck at geography, you must be American!!! The country was ${currCountry}, obviously.`);
     }
     // feed new hints as long as answered wrong and there are hints remaining
-  }, [hintsRemaining, hints])
+  }, [hintsRemaining, hints]);
 
   const handleClick = () => {
     // Handle user guess
@@ -59,22 +62,31 @@ const Hintsboard = (props) => {
       // Right? increase total score by adding the current question points
       console.log('right');
       alert('CORRECT!');
+      // window.location = changeCountry;
       setScore(score + (10 - scoreDeduction));
-      setScoreDeduction(0)
-      // changeCountry();
+      setScoreDeduction(0);
+      fetch('/syncscore/' + username, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json, text/plain',
+        },
+        body: JSON.stringify({score: (score + (10 - scoreDeduction)), username: username}),
+      })
+        .then(data => data.json())
+        .then(data => {
+          console.log('response from sync highscore ', data);
+          setHighScore(data);
+          console.log('successfully updated score');
+        });
     } else {
       // Wrong? feed user a hint and decrease the current possible points in this question 
       console.log('wrong');
       setInputWrong(true);
-      if (hintsRemaining === 0){
-        setHintsRemaining(0);
-      }
-      else{
-        setHintsRemaining(hintsRemaining - 1);
-        setScoreDeduction(scoreDeduction + 1);
-      }
+      setHintsRemaining(hintsRemaining - 1);
+      setScoreDeduction(scoreDeduction + 1);
     }
-  }
+  };
 
   return(
     <div className="hintsboard">
@@ -92,8 +104,8 @@ const Hintsboard = (props) => {
         }
       </div>
       <div className='input-form'>
-        <input type="text" className='input' id='input'/>
-        <label className="label">Guess the country</label>
+        <input type="text" className='input' id='input' placeholder='Guess the country'/>
+        {/* <label className="label">Guess the country</label> */}
         {/* <Button colorScheme='orange' onClick={() => {handleClick()}}>SUBMIT</Button> */}
         <button className='button' onClick={() => {handleClick()}}>SUBMIT</button>
       </div>

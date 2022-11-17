@@ -28,6 +28,7 @@ gameController.syncScore = (req, res, next) => {
     // .then(data => data.json()) 
     .then(data => {
       const previousHighScore = data.rows[0].highscore;
+      console.log('previous high score is: ', previousHighScore, 'score is: ', score)
       if (previousHighScore < score) {
         const setScoreQuery = `UPDATE users SET highscore=${score} WHERE username='${username}'`;
         db.query(setScoreQuery)
@@ -38,6 +39,10 @@ gameController.syncScore = (req, res, next) => {
           .catch(error => {
             return next(error);
           });
+      }
+      else { 
+        res.locals.newHighScore = previousHighScore;
+        return next();
       }
     })
     .catch(error => {

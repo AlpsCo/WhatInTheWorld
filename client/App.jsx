@@ -23,19 +23,13 @@ export const UserContext = React.createContext(userContextData);
 
 
 
-<<<<<<< HEAD
-function App() {
-  const [user, setUser] = useState('');
-  
-=======
 export default function App() {
-  const [value, setValue] = useState(UserContext.user);
+  const [user, setUser] = useState('');
 
->>>>>>> c8beb67d94c832778c45db79ac9da80b0ee598f3
   return (
 
     <ThemeContext.Provider>
-      <UserContext.Provider value ={{value, setValue}}>
+      <UserContext.Provider>
         <div id='appDiv'>
           <Routes>
             <Route path='/' element={<Login setUser={setUser}/>} />

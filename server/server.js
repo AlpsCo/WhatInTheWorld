@@ -46,6 +46,7 @@ app.post('/facts', countryController.getCountriesFacts, (req, res) => {
 // get previous high score
 app.get('/getscore/:username', gameController.getScore, (req, res) => {
   console.log('get score - successful');
+  console.log(res.locals.score)
   return res.status(200).json(res.locals.score);
 });
 
