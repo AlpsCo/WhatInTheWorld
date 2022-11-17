@@ -12,7 +12,7 @@ const root = createRoot(document.getElementById('root'));
 
 //initial render
 root.render(
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
 );

@@ -61,6 +61,7 @@ Submit button
 const Gamepage = (props) => {
   const [ score, setScore ] = useState(0);
   const [highscore, setHighScore] = useState(0);
+  const [timer, setTimer] = useState(0); 
   const [ currCountry, setCurrCountry] = useState('Zimbabwe');
   const [ hints, setHints ] = useState(['Ruler is Victor Von Doom.', 
     'In eastern Europe.', 
@@ -68,20 +69,21 @@ const Gamepage = (props) => {
     'Capital is DoomStadt.', 
     'Is an "enforced monarchy', 
     'Population is 500,000.']);
+  const [hintsRemaining, setHintsRemaining] = useState(hints.length);
   // We set this to true when they guess correctly, use this to trigger next question steps. 
 
   // get initial high score 
-  console.log('INSIDE GAMEPAGE user: ',props.user)
   // getting high score
-  fetch('/getscore/:'+ props.user)
-    .then(data => data.json())
-    .then(data => {
-      console.log(data);
-      setHighScore(data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  useEffect(() => {
+    fetch('/getscore/' + props.user)
+      .then(data => data.json())
+      .then(data => {
+        setHighScore(data.highscore);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, [props.user]);
 
   // Fetch data 
   async function handleClick() {
@@ -91,6 +93,8 @@ const Gamepage = (props) => {
         const randomIndex = Math.floor(Math.random() * (countriesArray.length));
         console.log(randomIndex, countriesArray[randomIndex]);
         setCurrCountry(countriesArray[randomIndex]);
+        setTimer(0);
+        setHintsRemaining(6);
       })
       .catch(error => {
         console.log(error);
@@ -122,16 +126,20 @@ const Gamepage = (props) => {
   return (
     <div className='gamepage'>
       <Navbar></Navbar>
-      <Metrics score={score} highscore={highscore} username={props.user}></Metrics>
-      {/* <Button colorScheme='orange' onClick={() => {handleClick()}}>START</button> */}
-      <div className='button-container'>
-        <button className='button' onClick={() => {handleClick()}}>START</button>
+      <div id="notnav">
+        <Metrics score={score} highscore={highscore} username={props.user} timer={timer} setTimer={setTimer}></Metrics>
+        {/* <Button colorScheme='orange' onClick={() => {handleClick()}}>START</button> */}
+        <div className='gamePageBox'>
+          <div className='button-container'>
+            <button className='button' onClick={() => {handleClick();}}>GET ANOTHER COUNTRY</button>
+          </div>
+          <Hintsboard score={score} setScore={setScore} hints={hints} currCountry={currCountry} changeCountry={handleClick} username={props.user} setHighScore={setHighScore} hintsRemaining={hintsRemaining} setHintsRemaining={setHintsRemaining}></Hintsboard>
+          {/* <Userinput currCountry={currCountry}  ></Userinput> */}
+        </div>
       </div>
-      <Hintsboard score={score} setScore={setScore} hints={hints} currCountry={currCountry} changeCountry={handleClick}></Hintsboard>
-      {/* <Userinput currCountry={currCountry}  ></Userinput> */}
     </div>
   );
-}
+};
 
 
 function objectToRandomArray(factoidsObject){
@@ -147,15 +155,15 @@ function objectToRandomArray(factoidsObject){
     //if picture/url, make an object. If not, format a string. 
     if(String(factoidsObject[key]).includes('http')){
       arrayOfFactoids.push({url: factoidsObject[key]});
-    } else if (key!=='name') {
+    } else if (key !== 'name') {
       if (key === 'language'){
         arrayOfFactoids.push(`The official languages of this country are ${factoidsObject[key]}`);
       }
       else if (key === 'landlocked'){
         if (factoidsObject[key] === true){
-          arrayOfFactoids.push('This country is landlocked')
+          arrayOfFactoids.push('This country is landlocked');
         }
-        else arrayOfFactoids.push('This country is not landlocked')
+        else arrayOfFactoids.push('This country is not landlocked');
       }
       else if (key === 'currency'){
         arrayOfFactoids.push(`The currency used in this country has a symbol ${factoidsObject[key]}`);
@@ -165,9 +173,9 @@ function objectToRandomArray(factoidsObject){
       }
       else if (key === 'hasBeenColonizedByBritain'){
         if (factoidsObject[key] === true){
-          arrayOfFactoids.push('This country has been colonized by Britain')
+          arrayOfFactoids.push('This country has been colonized by Britain');
         }
-        else arrayOfFactoids.push('This country has NOT been colonized by Britain :O')
+        else arrayOfFactoids.push('This country has NOT been colonized by Britain :O');
       }
       else if (key === 'borders'){
         arrayOfFactoids.push(`The (abbreviated) countries that border this country are ${factoidsObject[key]}`);
