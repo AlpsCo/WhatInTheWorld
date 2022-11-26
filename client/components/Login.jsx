@@ -3,14 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import {UserContext} from '../App';
 import logo from '../assets/earf.png';
 
-/*
-
-*/
-
 function Login(props) {
   const navigate = useNavigate();
-  //const {value, setValue} = useContext(UserContext.user); *decided to wait on implementing context*
-
   const handleClick = async (e) => {
     e.preventDefault();
 

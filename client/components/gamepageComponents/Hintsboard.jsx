@@ -3,68 +3,59 @@ import { Button, Input } from '@chakra-ui/react';
 
 
 const Hintsboard = (props) => {
+  const nextRound = props.nextRound;
+  const setNextRound = props.setNextRound;
   const username = props.username;
-  const score = props.score;
-  const setScore = props.setScore;
+  const score = props.score; 
+  const setScore = props.setScore; 
   const hints = props.hints;
-  const currCountry = props.currCountry;
+  let currCountry = props.currCountry;
   const changeCountry = props.changeCountry;
   const setHighScore = props.setHighScore;
   const hintsRemaining = props.hintsRemaining;
   const setHintsRemaining = props.setHintsRemaining;
-  //Pulling hints from state
-  //deep copying them into copyHints
-  //making empty displayHints
-  //As we go, we are popping from copyHints, into displayHints. 
-  //displaying displayHints.
 
-  // hints is already randomized - ["factoid", "factoid", "factoid", {url: 'picture'}]
-
-  
-  // const [hintsRemaining, setHintsRemaining] = useState(hints.length);
-  const [currentHint, setCurrentHint] = useState(hints[hintsRemaining-1]);
-  const [inputWrong, setInputWrong] = useState(false);
+  const [currentHint, setCurrentHint] = useState(hints[hintsRemaining - 1]);
   const [isFlag, setIsFlag] = useState(false);
   const [scoreDeduction, setScoreDeduction] = useState(0);
-  const [guessBool, setGuessBool] = useState(false);
-
 
   useEffect(() => {
-    console.log('inside useEffect: ', currentHint, hintsRemaining);
+    console.log('inside useEffect: ');
+    console.log('hints: ', hints, 'hints remaining: ', hintsRemaining, 'current hint: ', currentHint)
     // Getting a randomized array with string and a possible object containing a picture
     if(hintsRemaining > 0){
-      const newHint = hints[hintsRemaining];
+      const newHint = hints[hintsRemaining - 1];
       if (typeof(newHint) === 'object') {
-        console.log('inside flag logic', hints[hintsRemaining]);
-        setCurrentHint(hints[hintsRemaining].url);
+        console.log('inside flag logic', hints[hintsRemaining - 1]);
+        setCurrentHint(hints[hintsRemaining - 1].url);
         setIsFlag(true); 
       }
       else {
-        setCurrentHint(hints[hintsRemaining]);
+        setCurrentHint(hints[hintsRemaining - 1]);
         setIsFlag(false);
       }
     } else {
       // Wrong answer but no more hints
       setScoreDeduction(0);
       alert(`You suck at geography, you must be American!!! The country was ${currCountry}, obviously.`);
+      setNextRound(nextRound + 1);
     }
     // feed new hints as long as answered wrong and there are hints remaining
   }, [hintsRemaining, hints]);
 
   const handleClick = () => {
-    // Handle user guess
-    // potentially process capitalization of string to minimize mismatch Ex. MeXico === MEXICO 
-    const input = document.getElementById('input').value;
-    const parsedInput = input.slice(0,1).toUpperCase() + input.slice(1, input.length).toLowerCase();
-    console.log(parsedInput);
+    //case insensitive
+    const input = document.getElementById('input').value.toLowerCase();
+    currCountry = currCountry.toLowerCase();
+    
     // Compare user input with current country 
-    if (parsedInput === currCountry) {
+    if (input === currCountry) {
       // Right? increase total score by adding the current question points
       console.log('right');
       alert('CORRECT!');
-      // window.location = changeCountry;
       setScore(score + (10 - scoreDeduction));
       setScoreDeduction(0);
+      setNextRound(nextRound + 1);
       fetch('/syncscore/' + username, {
         method: 'PATCH',
         headers: {
@@ -82,7 +73,6 @@ const Hintsboard = (props) => {
     } else {
       // Wrong? feed user a hint and decrease the current possible points in this question 
       console.log('wrong');
-      setInputWrong(true);
       setHintsRemaining(hintsRemaining - 1);
       setScoreDeduction(scoreDeduction + 1);
     }
@@ -105,8 +95,6 @@ const Hintsboard = (props) => {
       </div>
       <div className='input-form'>
         <input type="text" className='input' id='input' placeholder='Guess the country'/>
-        {/* <label className="label">Guess the country</label> */}
-        {/* <Button colorScheme='orange' onClick={() => {handleClick()}}>SUBMIT</Button> */}
         <button className='button' onClick={() => {handleClick()}}>SUBMIT</button>
       </div>
     </div>

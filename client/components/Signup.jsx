@@ -1,10 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-/*
-
-*/
-
 function Signup() {
   const navigate = useNavigate();
 
@@ -35,17 +31,17 @@ function Signup() {
     <>
       <h1 id= 'title'>What In The World?</h1>
       <div id='signupDiv'>
-      <div className='box'>
-        <p>Please enter your desired username and password</p>
-        <form className='signupDivForm' onSubmit={handleClick}>
-          <input className="inputFields" type='text' id='username' name='username' placeholder="Username"></input>
-          <br></br>
-          <input className="inputFields" type='password' id='password' name='password' placeholder='Password'></input>
-          <br></br>
-          <input className="signupDivBtn" type='submit' value='Signup'></input>
-        </form>
-        <Link to='/' id='newAccBtn'>Go back to Login</Link>
-      </div>
+        <div className='box'>
+          <p>Please enter your desired username and password</p>
+          <form className='signupDivForm' onSubmit={handleClick}>
+            <input className="inputFields" type='text' id='username' name='username' placeholder="Username"></input>
+            <br></br>
+            <input className="inputFields" type='password' id='password' name='password' placeholder='Password'></input>
+            <br></br>
+            <input className="signupDivBtn" type='submit' value='Signup'></input>
+          </form>
+          <Link to='/' id='newAccBtn'>Go back to Login</Link>
+        </div>
       </div>
     </>
   );

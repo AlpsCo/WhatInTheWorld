@@ -2,66 +2,14 @@ import React, { useEffect, useState } from 'react';
 import  Navbar from './gamepageComponents/Navbar';
 import Hintsboard from './gamepageComponents/Hintsboard';
 import Metrics from './gamepageComponents/Metrics';
-// import { Userinput } from './gamepageComponents/Userinput';
 import { Button } from '@chakra-ui/react';
+import { first } from 'lodash';
 
-/*
-state
-  totalScore    integer
-  questionPoints  integer
-  factoids    [string, string, string]
-  country   string
-
-context
-  username    string
-  theme       string
-
-//Functions  
-Larger function that get's called when submit button gets's click
-  Input: users input will get passed by button click event handler?
-  Output:
-  purpose: To check 
-  checkIfGuessIsRight() ?  incrementTotalScore : decrementQuestionPoints + reveal Next Factoid
-
-
-incrementTotalScore:
-  Gets invoked only if answer is correct and adds to the total score
-
-decrementQuestionPoints
-  If question is wrong it will decrease the possible points of answering the question correctly until it reaches 0 
-  If question points is 0 we invoke the display next question
-
-checkIfGuessIsRight
-  checks if user input matches this.state.country
-timer
-
-reveal next factoid
-
-//Components
-  //TOP
-Logout Button
-encyclopedia Link
-
-  //Middle
-score display
-timer display
-
-Factoids
-  country fact
-  country fact
-  country fact
-
-  //Bottom
-guessInput
-Submit button
-
-
-*/
 
 const Gamepage = (props) => {
   const [ score, setScore ] = useState(0);
-  const [highscore, setHighScore] = useState(0);
-  const [timer, setTimer] = useState(0); 
+  const [ highscore, setHighScore ] = useState(0);
+  const [ timer, setTimer ] = useState(0); 
   const [ currCountry, setCurrCountry] = useState('Zimbabwe');
   const [ hints, setHints ] = useState(['Ruler is Victor Von Doom.', 
     'In eastern Europe.', 
@@ -71,9 +19,9 @@ const Gamepage = (props) => {
     'Population is 500,000.']);
   const [hintsRemaining, setHintsRemaining] = useState(hints.length);
   // We set this to true when they guess correctly, use this to trigger next question steps. 
+  const [nextRound, setNextRound] = useState(0);
 
-  // get initial high score 
-  // getting high score
+  // getting user's alltime high score
   useEffect(() => {
     fetch('/getscore/' + props.user)
       .then(data => data.json())
@@ -85,25 +33,7 @@ const Gamepage = (props) => {
       });
   }, [props.user]);
 
-  // Fetch data 
-  async function handleClick() {
-    await fetch('/countries')
-      .then(data => data.json())
-      .then(countriesArray => {
-        const randomIndex = Math.floor(Math.random() * (countriesArray.length));
-        console.log(randomIndex, countriesArray[randomIndex]);
-        setCurrCountry(countriesArray[randomIndex]);
-        setTimer(0);
-        setHintsRemaining(6);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-
-      
-    console.log('end of handleClick');
-  }
-    
+  
   // Randomize facts and store data in an object with country and an array with random facts
   useEffect(() => {
     fetch('/facts', {
@@ -116,10 +46,31 @@ const Gamepage = (props) => {
     })
       .then(data => data.json())
       .then(facts => {
-        console.log('we got... ', facts, 'and we converted to...', objectToRandomArray(facts));
-        setHints(objectToRandomArray(facts));     
-      });
+        setHints(objectToRandomArray(facts));
+      })
+      .then(() => setHintsRemaining(hints.length));  
   }, [currCountry]); 
+
+  useEffect(() => {
+    handleClick();
+  }, [nextRound])
+    
+  // Fetch randomized new country  
+  async function handleClick() {
+    await fetch('/countries')
+      .then(data => data.json())
+      .then(countriesArray => {
+        const randomIndex = Math.floor(Math.random() * (countriesArray.length));
+        console.log(randomIndex, countriesArray[randomIndex]);
+        setCurrCountry(countriesArray[randomIndex]);
+        setTimer(0);
+       
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    console.log('end of handleClick');
+  }
 
   // As user progresses through the questions (right/wrong) feed the next question by updating state of country and currHints
 
@@ -133,7 +84,7 @@ const Gamepage = (props) => {
           <div className='button-container'>
             <button className='button' onClick={() => {handleClick();}}>GET ANOTHER COUNTRY</button>
           </div>
-          <Hintsboard score={score} setScore={setScore} hints={hints} currCountry={currCountry} changeCountry={handleClick} username={props.user} setHighScore={setHighScore} hintsRemaining={hintsRemaining} setHintsRemaining={setHintsRemaining}></Hintsboard>
+          <Hintsboard score={score} setScore={setScore} hints={hints} currCountry={currCountry} changeCountry={handleClick} username={props.user} setHighScore={setHighScore} hintsRemaining={hintsRemaining} setHintsRemaining={setHintsRemaining} nextRound={nextRound} setNextRound={setNextRound}></Hintsboard>
           {/* <Userinput currCountry={currCountry}  ></Userinput> */}
         </div>
       </div>
@@ -143,18 +94,12 @@ const Gamepage = (props) => {
 
 
 function objectToRandomArray(factoidsObject){
-  //{key1: value1, key2: value2, key3: value3}    -> randomized array ["factoid", "factoid", "factoid", {url: 'picture'}]
-
-  //If we loop through key/value pairs, and put into array with random indices, annoying to keep track and not overwrite things. 
-  //So convert to array and then randomize in place. 
-  //Is there a built in shuffle method? No. :/
-
-  //convert object to array, formatting for text/url as we go. 
-  const arrayOfFactoids =  [];
+  let arrayOfFactoids =  [];
+  const firstQ = [];
   for(const key in factoidsObject){
     //if picture/url, make an object. If not, format a string. 
     if(String(factoidsObject[key]).includes('http')){
-      arrayOfFactoids.push({url: factoidsObject[key]});
+      firstQ.push({url: factoidsObject[key]});
     } else if (key !== 'name') {
       if (key === 'language'){
         arrayOfFactoids.push(`The official languages of this country are ${factoidsObject[key]}`);
@@ -180,12 +125,16 @@ function objectToRandomArray(factoidsObject){
       else if (key === 'borders'){
         arrayOfFactoids.push(`The (abbreviated) countries that border this country are ${factoidsObject[key]}`);
       }
+      else if (key === 'capital'){
+        firstQ.push(`The ${key} of this country is ${factoidsObject[key]}`);
+      }
       else arrayOfFactoids.push(`The ${key} of this country is ${factoidsObject[key]}`);
     }
   }
   //Now need to randomize the array. 
   //Loop through array
   //swap index and a random index
+
   for(let index = 0; index < arrayOfFactoids.length; index++){
     const randomIndex = Math.floor(Math.random() * arrayOfFactoids.length);
 
@@ -193,7 +142,16 @@ function objectToRandomArray(factoidsObject){
     arrayOfFactoids[index] = arrayOfFactoids[randomIndex];
     arrayOfFactoids[randomIndex] = temporary;
   }
+  for(let index = 0; index < firstQ.length; index++){
+    const randomIndex = Math.floor(Math.random() * firstQ.length);
 
+    const temporary = firstQ[index];
+    firstQ[index] = firstQ[randomIndex];
+    firstQ[randomIndex] = temporary;
+  }
+  
+  arrayOfFactoids = arrayOfFactoids.concat(firstQ);
+  console.log(arrayOfFactoids);
   return arrayOfFactoids;
 }
 
