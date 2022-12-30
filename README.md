@@ -1,5 +1,6 @@
 # WhatInTheWorld
 
+An open source, free to use, geography edutainment game! Test your world knowledge using our trivia application.
 
 To create database:  
 
